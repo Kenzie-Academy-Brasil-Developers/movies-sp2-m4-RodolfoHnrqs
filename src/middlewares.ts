@@ -45,7 +45,9 @@ const verifyNameExistance = async (
 
     if (foundMovie) {
         const message: string = "Movie name already exists!";
-        return res.status(409).json({ message });
+        return res.status(409).json({ 
+            error: message
+         });
     }
 
     return next();
