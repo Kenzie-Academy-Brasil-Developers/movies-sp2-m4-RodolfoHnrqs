@@ -36,11 +36,17 @@ const readMovies = async (req: Request, res: Response): Promise<Response> => {
         return res.status(200).json(queryResultCategory.rows);
     }
 
-    const queryStringAll: string = `SELECT * FROM animals;`;
+    const queryStringAll: string = `SELECT * FROM movies;`;
     const queryResultAll: MovieResult = await client.query(queryStringAll);
 
     return res.json(queryResultAll.rows);
 };
+
+const retrieveMovie = async (req: Request, res: Response): Promise<Response> => {
+    const foundMovie = res.locals.queryResult;
+
+    return res.status(200).json(foundMovie);
+}
 
 const updateMovie = async (req: Request, res: Response): Promise<Response> => {
     const payload: MovieUpdateRequest = req.body;
@@ -74,4 +80,4 @@ const deleteMovie = async (req: Request, res: Response): Promise<Response> => {
     return res.status(204).send();
 };
 
-export { createMovie, readMovies, updateMovie, deleteMovie}
+export { createMovie, readMovies, updateMovie, deleteMovie, retrieveMovie }

@@ -1,19 +1,19 @@
 import express, { Application, json } from "express";
 import "dotenv/config";
 import { connectDatabase } from "./database";
-import { createMovie, deleteMovie, updateMovie, readMovies } from "./logic";
-import { verifyIdExistance } from "./middlewares";
+import { createMovie, deleteMovie, updateMovie, readMovies, retrieveMovie } from "./logic";
+import { verifyIdExistance, verifyNameExistance } from "./middlewares";
 
 const app: Application = express();
 app.use(json());
 
-app.post("/movies", createMovie);
+app.post("/movies", verifyNameExistance, createMovie);
 
 app.get("/movies", readMovies);
 
-app.get("/movies/:id", verifyIdExistance, readMovies);
+app.get("/movies/:id", verifyIdExistance, retrieveMovie);
 
-app.patch("/movies/:id", verifyIdExistance, updateMovie);
+app.patch("/movies/:id", verifyIdExistance, verifyNameExistance, updateMovie);
 
 app.delete("/movies/:id", verifyIdExistance, deleteMovie);
 
